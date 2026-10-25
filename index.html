@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow AI - Intelligent Productivity & Focus Dashboard</title>
+    <meta name="description" content="A sleek, AI-assisted productivity dashboard featuring smart daily task planning, a customizable Pomodoro timer, and contextual coaching.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <header class="navbar">
+        <a href="#" class="logo">FocusFlow <span>AI</span></a>
+        <div class="nav-actions">
+            <button type="button" id="resetBtn" class="secondary-btn" title="Reset all tasks and sessions for a fresh start">Reset Day</button>
+            <button type="button" id="themeBtn" class="icon-btn" aria-label="Toggle dark/light theme" title="Toggle theme">🌙</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Welcome & Date Header -->
+        <section class="welcome" aria-label="Overview header">
+            <div>
+                <p class="eyebrow">AI PRODUCTIVITY DASHBOARD</p>
+                <h1>Focus on what <span>matters today</span></h1>
+                <p class="subtitle">Plan your day, lock into deep focus sessions, and receive contextual coaching.</p>
+            </div>
+            <div class="date-card" aria-label="Current date">
+                <span id="dayName">Today</span>
+                <strong id="todayDate">Loading date...</strong>
+            </div>
+        </section>
+
+        <!-- Stats Overview Cards -->
+        <section class="stats-grid" aria-label="Productivity metrics">
+            <article class="stat-card">
+                <div class="stat-icon" aria-hidden="true">✓</div>
+                <p>Tasks Completed</p>
+                <h2 id="completedCount">0</h2>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon" aria-hidden="true">📋</div>
+                <p>Total Tasks</p>
+                <h2 id="totalCount">0</h2>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon" aria-hidden="true">⏱️</div>
+                <p>Focus Sessions</p>
+                <h2 id="sessionCount">0</h2>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon" aria-hidden="true">📈</div>
+                <p>Completion Rate</p>
+                <h2 id="progressText">0%</h2>
+            </article>
+        </section>
+
+        <!-- Main Dashboard: Tasks on Left, Timer & AI Coach on Right -->
+        <div class="dashboard">
+            <!-- Left Column: Tasks Manager -->
+            <section class="panel" aria-label="Task management">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">TASK MANAGEMENT</p>
+                        <h2>Today's Tasks</h2>
+                    </div>
+                    <span id="remainingBadge" class="task-badge">0 remaining</span>
+                </div>
+
+                <div class="progress-track" role="progressbar" aria-label="Task completion progress">
+                    <div id="progressBar" class="progress-fill"></div>
+                </div>
+
+                <form id="taskForm" class="task-form">
+                    <input 
+                        type="text" 
+                        id="taskInput" 
+                        placeholder="What do you want to accomplish next?" 
+                        autocomplete="off" 
+                        required 
+                    />
+                    <select id="priorityInput" aria-label="Task priority">
+                        <option value="High">High</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <button type="submit" class="primary-btn">+ Add Task</button>
+                </form>
+
+                <div id="taskList" class="task-list"></div>
+                <p id="emptyMessage" class="empty-message">No tasks yet. Add your first goal above to get started!</p>
+            </section>
+
+            <!-- Right Column: Focus Timer & AI Coach -->
+            <div class="right-column">
+                <!-- Focus Timer Panel -->
+                <section class="panel timer-panel" aria-label="Pomodoro focus timer">
+                    <p class="eyebrow">POMODORO TIMER</p>
+                    <h2>Focus Timer</h2>
+                    <p class="panel-subtitle">Dedicated distraction-free intervals to enter deep work.</p>
+
+                    <div class="timer-ring">
+                        <div class="timer-inner">
+                            <span id="timerLabel">FOCUS SESSION</span>
+                            <strong id="timerDisplay">25:00</strong>
+                            <span id="timerHint">Ready when you are</span>
+                        </div>
+                    </div>
+
+                    <div class="timer-modes" role="group" aria-label="Timer interval selection">
+                        <button type="button" class="mode-btn active" data-minutes="25" data-label="FOCUS SESSION">25m Focus</button>
+                        <button type="button" class="mode-btn" data-minutes="5" data-label="SHORT BREAK">5m Break</button>
+                        <button type="button" class="mode-btn" data-minutes="15" data-label="LONG BREAK">15m Break</button>
+                    </div>
+
+                    <div class="timer-controls">
+                        <button type="button" id="startBtn" class="primary-btn">▶ Start</button>
+                        <button type="button" id="pauseBtn" class="secondary-btn">⏸ Pause</button>
+                        <button type="button" id="timerResetBtn" class="secondary-btn">↺ Reset</button>
+                    </div>
+                </section>
+
+                <!-- AI Coach Panel -->
+                <section class="panel coach-panel" aria-label="AI productivity coach">
+                    <div class="coach-title">
+                        <div class="coach-icon" aria-hidden="true">💡</div>
+                        <div>
+                            <p class="eyebrow">AI COACH</p>
+                            <h2>Smart Insight</h2>
+                        </div>
+                    </div>
+                    <p id="coachMessage">Choose your most important task and work on it for just 25 minutes. Starting is often the hardest part.</p>
+                    <button type="button" id="coachBtn" class="coach-btn">✦ Get New Coaching Tip</button>
+                    <p class="coach-note">Tip adapts dynamically based on your high-priority items and current progress.</p>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>FocusFlow AI &bull; Intelligent Productivity &amp; Focus Flow &bull; All data saved locally</p>
+        </footer>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
